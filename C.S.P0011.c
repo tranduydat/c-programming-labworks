@@ -9,8 +9,11 @@
 #include <math.h>
 #include <ctype.h>
 
-#define INIT_STRING_LENGTH 500  // character unit
+#define INIT_STRING_LENGTH 100  // character unit
 #define FAILURE_MEMORY_ALLOC -2 // return code if memory allocation failed
+#define MAX_BIN_DIGITS 64
+#define MAX_HEX_DIGITS 16
+#define MAX_OCT_DIGITS 22
 
 /*
  *  Function 1.1
@@ -20,6 +23,9 @@
 int checkBinFormat(char *userInput)
 {
     int i;
+
+    if (strlen(userInput) > MAX_BIN_DIGITS)
+        return 0;
 
     // if each character in whole string userInput
     for (i = 0; i < strlen(userInput); i++)
@@ -40,14 +46,25 @@ int checkBinFormat(char *userInput)
 int checkOctFormat(char *userInput)
 {
     int i;
+    short count = 0;
+
+    if (strlen(userInput) > MAX_OCT_DIGITS)
+        return 0;
 
     // if each character in whole string userInput
     for (i = 0; i < strlen(userInput); i++)
         // in the range from 48 to 55(corresponding in the range of[0, 8] in ASCII)
-        if (userInput[i] >= 48 && userInput[i] <= 55)
+        if (userInput[i] >= 48 && userInput[i] <= 55) {
+            if (i != 0 && userInput[i] == 55)
+                count++;
             continue;
+        }
         else
             return 0;
+
+    // the maximum value of octal in 64 bits is 1777777777777777777777
+    if (userInput[0] > 49 && count == 21)
+        return 0;
 
     return 1;
 }
@@ -60,6 +77,9 @@ int checkOctFormat(char *userInput)
 int checkHexFormat(char *userInput)
 {
     int i;
+
+    if (strlen(userInput) > MAX_HEX_DIGITS)
+        return 0;
 
     // if each character in whole string userInput
     for (i = 0; i < strlen(userInput); i++)
@@ -186,7 +206,7 @@ char *getUserInput(int userChoice)
 void convertBinToDec(char *userInput, unsigned long long int *decimalResult)
 {
     int i, j;
-    unsigned long int temp;
+    long double temp;
     size_t userInputLength = strlen(userInput);
 
     for (i = 0, j = userInputLength - 1; i < userInputLength; i++, j--)
@@ -205,7 +225,7 @@ void convertBinToDec(char *userInput, unsigned long long int *decimalResult)
 void convertOctToDec(char *userInput, unsigned long long int *decimalResult)
 {
     int i, j;
-    unsigned long int temp;
+    long double temp;
     size_t userInputLength = strlen(userInput);
 
     for (i = 0, j = userInputLength - 1; i < userInputLength; i++, j--)
@@ -224,7 +244,7 @@ void convertOctToDec(char *userInput, unsigned long long int *decimalResult)
 void convertHexToDec(char *userInput, unsigned long long int *decimalResult)
 {
     int i, j;
-    unsigned long int temp;
+    long double temp;
     size_t userInputLength = strlen(userInput);
 
     for (i = 0, j = userInputLength - 1; i < userInputLength ; i++, j--)
