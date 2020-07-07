@@ -1,3 +1,9 @@
+/*
+ *  Assignment:     C.S.P0039
+ *  Requirement:    Date validation application
+ *  Author:         Dat Tran (HE140517)
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,7 +15,6 @@ typedef struct Date
 } Date;
 
 /*
- *  Function
  *  To get integer from standard input while check its validity
  */
 int getIntInput(int min, int max)
@@ -36,8 +41,9 @@ int getIntInput(int min, int max)
 }
 
 /*
- *  Function
  *  To get 2 characters from standard input while check its validity
+ *  c1: char input
+ *  c2: char input
  */
 void getCharInput(char *c1, char *c2)
 {
@@ -59,23 +65,23 @@ void getCharInput(char *c1, char *c2)
 }
 
 /*
- *  Function
  *  Check input year (as parameter) either is leap year or not
- *  Return 1 if it is, unless return 0
+ *  Date date: day, month, year input
+ *  Returns: 1 - if input is a leap year
+ *           0 - if it not
  */
-int checkLeapYear(int year)
+int checkLeapYear(Date date)
 {
     /* A leap year is a year that divisible by 400 or divisible by 4
      * and indivisible by 100. If it is a leap year,
      * then return 1, otherwise return 0 */
-    if (year % 400 == 0 || year % 4 == 0 && year % 100 != 0)
+    if (date.year % 400 == 0 || date.year % 4 == 0 && date.year % 100 != 0)
         return 1;
     else
         return 0;
 }
 
 /*
- *  Function
  *  Get date info from user input
  *  While checking it is in valid type of date or not
  */
@@ -90,8 +96,8 @@ void getDateInfo(Date *date)
 }
 
 /*
- *  Function
  *  Calculating that type of dat which user inputted does it exist or not
+ *  Date date: day, month, year input
  */
 void processDateInfo(Date date)
 {
@@ -127,7 +133,6 @@ void processDateInfo(Date date)
 }
 
 /*
- *  Function
  *  To print out the menu to the console
  */
 void getUserChoice(int *userChoice)
@@ -142,7 +147,6 @@ void getUserChoice(int *userChoice)
 }
 
 /*
- *  Function
  *  Printing output in descending orders of ASCII codes of all characters
  *  between the 2 inputted characters (inclusively) to standard output
  */
@@ -163,7 +167,6 @@ void printCharactersData(char c1, char c2)
 }
 
 /*
- *  Function
  *  To rerun program as soon as it be invoked
  */
 void rerunProgram()
@@ -185,17 +188,29 @@ int main()
     switch (userChoice)
     {
     case 1:
+        // asks users to input date, month and year
+        // then checks its validity
         getDateInfo(&date);
+
+        // check does inputted date info be exist or not
+        // then print out result
         processDateInfo(date);
         break;
     case 2:
+        // asks users to input 2 characters
+        // then checks its validity
         getCharInput(&c1, &c2);
+
+        // outputs in descending orders of ASCII codes
+        // of all characters between 2 inputted characters
         printCharactersData(c1, c2);
         break;
     case 3:
         exit(0);
     }
 
+    // after finishing option 1 or 2
+    // then rerun program to display the menu
     rerunProgram();
 
     return 0;
