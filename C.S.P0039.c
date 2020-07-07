@@ -79,48 +79,48 @@ int checkLeapYear(int year)
  *  Get date info from user input
  *  While checking it is in valid type of date or not
  */
-void getDateInfo(int *day, int *month, int *year)
+void getDateInfo(Date *date)
 {
     printf("Enter day (1 - 31): ");
-    *day = getIntInput(1, 31);
+    date->day = getIntInput(1, 31);
     printf("Enter month (1 - 12): ");
-    *month = getIntInput(1, 12);
+    date->month = getIntInput(1, 12);
     printf("Enter year (1 - 9999): ");
-    *year = getIntInput(1, 9999);
+    date->year = getIntInput(1, 9999);
 }
 
 /*
  *  Function
  *  Calculating that type of dat which user inputted does it exist or not
  */
-void processDateInfo(int day, int month, int year)
+void processDateInfo(Date date)
 {
     char errorMsg[] = "\nDay, month, year you entered is invalid\n";
     char successMsg[] = "\nYou entered a valid date: ";
 
-    if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+    if (date.month == 1 || date.month == 3 || date.month == 5 || date.month == 7 || date.month == 8 || date.month == 10 || date.month == 12)
     {
-        if (day <= 31)
-            printf("%s%d-%d-%d\n", successMsg, day, month, year);
+        if (date.day <= 31)
+            printf("%s%d-%d-%d\n", successMsg, date.day, date.month, date.year);
         else
             printf("%s", errorMsg);
     }
-    else if (month == 2)
+    else if (date.month == 2)
     {
-        if (checkLeapYear(year))
-            if (day <= 29)
-                printf("%s%d-%d-%d\n", successMsg, day, month, year);
+        if (checkLeapYear(date.year))
+            if (date.day <= 29)
+                printf("%s%d-%d-%d\n", successMsg, date.day, date.month, date.year);
             else
                 printf("%s", errorMsg);
-        else if (day <= 28)
-            printf("%s%d-%d-%d\n", successMsg, day, month, year);
+        else if (date.day <= 28)
+            printf("%s%d-%d-%d\n", successMsg, date.day, date.month, date.year);
         else
             printf("%s", errorMsg);
     }
     else
     {
-        if (day <= 30)
-            printf("%s%d-%d-%d\n", successMsg, day, month, year);
+        if (date.day <= 30)
+            printf("%s%d-%d-%d\n", successMsg, date.day, date.month, date.year);
         else
             printf("%s", errorMsg);
     }
@@ -146,7 +146,7 @@ void getUserChoice(int *userChoice)
  *  Printing output in descending orders of ASCII codes of all characters
  *  between the 2 inputted characters (inclusively) to standard output
  */
-void printCharactersData(char a, char b)
+void printCharactersData(char c1, char c2)
 {
     int i;
 
@@ -154,11 +154,11 @@ void printCharactersData(char a, char b)
     /* to print out characters and
      * its corresponding ASCII terms
      * in Descending order */
-    if (a < b)
-        for (i = b; i >= a; i--)
+    if (c1 < c2)
+        for (i = c2; i >= c1; i--)
             printf("  %c:%d\n", i, i);
     else
-        for (i = a; i >= b; i--)
+        for (i = c1; i >= c2; i--)
             printf("  %c:%d\n", i, i);
 }
 
@@ -176,7 +176,6 @@ void rerunProgram()
 int main()
 {
     int userChoice;
-    int day, month, year;
     char c1, c2;
     Date date;
 
@@ -186,8 +185,8 @@ int main()
     switch (userChoice)
     {
     case 1:
-        getDateInfo(&day, &month, &year);
-        processDateInfo(day, month, year);
+        getDateInfo(&date);
+        processDateInfo(date);
         break;
     case 2:
         getCharInput(&c1, &c2);
